@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post">
+         {% csrf_token %}
+        <input type="text" name="search" placeholder="Пошук ...">
+        <button type="submit"><Search></Search></button>
+    </form>
+    <!-- <p>фільтрувати за жанром</p> -->
+    <!-- <form method="post">
+        <label><input type="checkbox" name="categories" value="Фантастика">Фантастика</label>
+        <label><input type="checkbox" name="categories" value="Детектив та трилери"></label>
+        <label><input type="checkbox" name="categories" value="Роман"></label>
+        <label><input type="checkbox" name="categories" value="Бізнес та саморозвиток"></label>
+        <label><input type="checkbox" name="categories" value="Дитяча література"></label>
+        <button type="submit">Відфільтрувати</button>
+
+    </form> -->
+    {% for product in products %}
+        <a href="{% url 'product_detail' product.pk %}">{{product.title}}</a>
+        <p>{{product.author}}</p>
+        <p>{{product.price}} грн</p>
+    {% endfor %}
+</body>
+</html>

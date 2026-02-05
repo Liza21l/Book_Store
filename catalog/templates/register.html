@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post">
+    {% csrf_token %}
+        <p>username</p>
+        <p>
+            {{ form.username }}
+        </p>
+        <p>password1</p>
+        <p>
+            {{ form.password1 }}
+        </p>
+        <p>password2</p>
+        <p>
+            {{ form.password2 }}
+        </p>
+    <button type="submit">Створити акаунт</button>
+</form>
+
+{% if form.errors %}
+    <div style="color:red;">
+        {{ form.errors }}
+    </div>
+{% endif %}
+
+</body>
+</html>

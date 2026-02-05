@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<h1>{{ product.title }}</h1>
+<p><strong>Автор:</strong> {{ product.author }}</p>
+<p><strong>Видавництво:</strong> {{ product.publisher }}</p>
+<p><strong>Жанр:</strong> {{ product.genre }}</p>
+<p><strong>Опис:</strong> {{ product.description }}</p>
+<p><strong>Ціна:</strong> {{ product.price }} грн</p>
+<form method="post" action="{% url 'add_to_cart' product.pk %}">
+    {% csrf_token %}
+    <button type="submit">Додати в кошик</button>
+</form>
+</body>
+</html>
