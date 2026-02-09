@@ -1,27 +1,321 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>BookStore</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        header nav a:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-bar form {
+            display: flex;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid #E5E7EB;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #7C3AED;
+        }
+
+        button {
+            background-color: #10B981;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #059669;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .filter-header p {
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .filter-toggle {
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .filter-toggle.open {
+            transform: rotate(180deg);
+        }
+
+        .filter-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .filter-content.open {
+            max-height: 500px;
+            margin-top: 15px;
+        }
+
+        /* Product Card */
+        .product {
+            background: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .product:hover {
+            border-color: #7C3AED;
+            transform: translateX(4px);
+        }
+
+        .product-layout {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product a {
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #0F172A;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .product a:hover {
+            color: #7C3AED;
+        }
+
+        .author {
+            font-style: italic;
+            color: #7C3AED;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .product-meta {
+            color: #64748B;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .genre {
+            font-weight: bold;
+            color: #F59E0B;
+            background: #FEF3C7;
+            padding: 4px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        /* Product Price Section */
+        .product-price {
+            text-align: right;
+            min-width: 120px;
+        }
+
+        .price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #7C3AED;
+            margin-bottom: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background: #0F172A;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin: 0;
+            color: #94A3B8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .product-layout {
+                flex-direction: column;
+            }
+
+            .product-price {
+                text-align: left;
+                width: 100%;
+            }
+
+            .search-bar form {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
-    <form method="post">
-         {% csrf_token %}
-        <input type="text" name="search" placeholder="Пошук ...">
-        <button type="submit"><Search></Search></button>
-    </form>
-    <p>фільтрувати за жанром</p>
-    <form method="get">
-        {% csrf_token %}
-        {{ filterset.form.as_p }}
-        <button type="submit">Відфільтрувати</button>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h1>BookStore</h1>
+            <nav>
+                <a href="{% url 'cart' %}">Кошик</a>
+            </nav>
+        </div>
+    </header>
 
-    </form>
-    {% for product in products %}
-        <a href="{% url 'product_detail' product.pk %}">{{product.title}}</a>
-        <p>{{product.author}}</p>
-        <p>{{product.price}} грн</p>
-    {% endfor %}
+    <div class="container">
+        <!-- Пошук -->
+        <div class="search-bar">
+            <form method="post">
+                {% csrf_token %}
+                <input type="text" name="search" placeholder="Пошук ...">
+                <button type="submit">Шукати</button>
+            </form>
+        </div>
+
+        <!-- Фільтрація -->
+        <div class="filter-bar">
+            <div class="filter-header" onclick="toggleFilter()">
+                <p><strong>Фільтрувати за жанром</strong></p>
+                <span class="filter-toggle" id="filterToggle">▼</span>
+            </div>
+            <div class="filter-content" id="filterContent">
+                <form method="get">
+                    {% csrf_token %}
+                    {{ filterset.form.as_p }}
+                    <button type="submit">Відфільтрувати</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Список книг -->
+        {% for product in products %}
+        <div class="product">
+            <div class="product-layout">
+                <div class="product-info">
+                    <a href="{% url 'product_detail' product.pk %}">{{ product.title }}</a>
+                    <p class="author">{{ product.author }}</p>
+                    <span class="genre">{{ product.genre }}</span>
+                    <p class="product-meta">{{ product.pages }} стор. | {{ product.year }} р.</p>
+                </div>
+                <div class="product-price">
+                    <div class="price">{{ product.price }} грн</div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>BookStore - Інтернет-магазин книг та коміксів</p>
+    </footer>
+
+    <script>
+        function toggleFilter() {
+            const content = document.getElementById('filterContent');
+            const toggle = document.getElementById('filterToggle');
+            
+            content.classList.toggle('open');
+            toggle.classList.toggle('open');
+        }
+    </script>
 </body>
 </html>

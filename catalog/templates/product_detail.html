@@ -1,20 +1,393 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{{ product.title }} - BookStore</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        header nav a:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #64748B;
+        }
+
+        .breadcrumbs a {
+            color: #7C3AED;
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+
+        /* Product Detail Card */
+        .product-detail {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .product-layout {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+        }
+
+        /* Book Cover Placeholder */
+        .book-cover {
+            background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+            border-radius: 12px;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 64px;
+            box-shadow: 0 8px 16px rgba(124, 58, 237, 0.2);
+        }
+
+        /* Product Info */
+        .product-info h1 {
+            font-size: 36px;
+            color: #0F172A;
+            margin: 0 0 10px 0;
+            line-height: 1.2;
+        }
+
+        .author {
+            font-size: 20px;
+            color: #7C3AED;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .price-section {
+            background: #F8FAFC;
+            border-left: 4px solid #7C3AED;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .price {
+            font-size: 42px;
+            font-weight: bold;
+            color: #7C3AED;
+            margin: 0;
+        }
+
+        .price-label {
+            font-size: 14px;
+            color: #64748B;
+            margin-bottom: 5px;
+        }
+
+        /* Details Grid */
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .detail-item {
+            background: #F8FAFC;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: #64748B;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 16px;
+            color: #0F172A;
+            font-weight: 600;
+        }
+
+        .genre-badge {
+            background: #FEF3C7;
+            color: #F59E0B;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        /* Description */
+        .description-section {
+            margin: 30px 0;
+        }
+
+        .description-section h2 {
+            font-size: 20px;
+            color: #0F172A;
+            margin-bottom: 15px;
+        }
+
+        .description-section p {
+            line-height: 1.8;
+            color: #64748B;
+            font-size: 16px;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #7C3AED;
+            border: 2px solid #7C3AED;
+        }
+
+        .btn-secondary:hover {
+            background: #F8FAFC;
+        }
+
+        /* Stock Status */
+        .stock-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #D1FAE5;
+            color: #065F46;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .stock-dot {
+            width: 8px;
+            height: 8px;
+            background: #10B981;
+            border-radius: 50%;
+        }
+
+        /* Footer */
+        footer {
+            background: #0F172A;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        footer p {
+            margin: 0;
+            color: #94A3B8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .product-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .book-cover {
+                height: 400px;
+            }
+
+            .product-info h1 {
+                font-size: 28px;
+            }
+
+            .price {
+                font-size: 32px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
-<h1>{{ product.title }}</h1>
-<p><strong>Автор:</strong> {{ product.author }}</p>
-<p><strong>Видавництво:</strong> {{ product.publisher }}</p>
-<p><strong>Жанр:</strong> {{ product.genre }}</p>
-<p><strong>Опис:</strong> {{ product.description }}</p>
-<p><strong>Ціна:</strong> {{ product.price }} грн</p>
-<form method="post" action="{% url 'add_to_cart' product.pk %}">
-    {% csrf_token %}
-    <button type="submit">Додати в кошик</button>
-</form>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h1>BookStore</h1>
+            <nav>
+                <a href="/">← Назад</a>
+                <a href="{% url 'cart' %}">Кошик</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <div class="breadcrumbs">
+            <a href="{% url 'product_list' %}">Головна</a> / <span>{{ product.title }}</span>
+        </div>
+
+        <!-- Product Detail -->
+        <div class="product-detail">
+            <div class="product-layout">
+                <div class="book-cover">
+                    📚
+                </div>
+
+                <div class="product-info">
+                    <h1>{{ product.title }}</h1>
+                    <p class="author">{{ product.author }}</p>
+
+                    <div class="stock-status">
+                        <span class="stock-dot"></span>
+                        В наявності
+                    </div>
+
+                    <div class="price-section">
+                        <div class="price-label">Ціна</div>
+                        <div class="price">{{ product.price }} грн</div>
+                    </div>
+
+                    <!-- Details Grid -->
+                    <div class="details-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Автор</div>
+                            <div class="detail-value">{{ product.author }}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Видавництво</div>
+                            <div class="detail-value">{{ product.publisher }}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Жанр</div>
+                            <div class="detail-value">
+                                <span class="genre-badge">{{ product.genre }}</span>
+                            </div>
+                        </div>
+                        {% if product.year %}
+                        <div class="detail-item">
+                            <div class="detail-label">Рік видання</div>
+                            <div class="detail-value">{{ product.year }} р.</div>
+                        </div>
+                        {% endif %}
+                        {% if product.pages %}
+                        <div class="detail-item">
+                            <div class="detail-label">Кількість сторінок</div>
+                            <div class="detail-value">{{ product.pages }} стор.</div>
+                        </div>
+                        {% endif %}
+                        {% if product.language %}
+                        <div class="detail-item">
+                            <div class="detail-label">Мова</div>
+                            <div class="detail-value">{{ product.language }}</div>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Description -->
+                    <div class="description-section">
+                        <h2>Опис книги</h2>
+                        <p>{{ product.description }}</p>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <form method="post" action="{% url 'add_to_cart' product.pk %}" style="flex: 1;">
+                            {% csrf_token %}
+                            <button type="submit">🛒 Додати в кошик</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>BookStore - Інтернет-магазин книг та коміксів</p>
+    </footer>
 </body>
 </html>
