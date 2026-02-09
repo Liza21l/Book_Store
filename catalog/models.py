@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+import django_filters
+from django import forms
+
 
 
 class Product(models.Model):
@@ -25,4 +28,22 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f"{self.user.username} — {self.product.title}"
+
+
+class ProductFilter(django_filters.FilterSet):
+    genre = django_filters.MultipleChoiceFilter(
+        field_name="genre",
+        choices=[
+            ("fantasy", "Fantasy"),
+            ("detective and thriller", "Detective And Thriller"),
+            ("romance", "Romance"),
+            ("business and self-development", "Business And Self-Development"),
+            ("children's literature", "Children's Literature"),
+        ],
+        widget=django_filters.widgets.forms.CheckboxSelectMultiple
+    )
+
+    class Meta:
+        model = Product
+        fields = ["genre"]
 

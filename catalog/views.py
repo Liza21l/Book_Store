@@ -1,18 +1,29 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
-from .models import Product, CartItem
+from .models import Product, CartItem, ProductFilter
 from django.contrib.auth.decorators import login_required
 
 
 def product_list(request):
     products = Product.objects.all()
+    filterset = None 
     if request.method == "POST":
         search = request.POST.get("search")
         if search:
             products = Product.objects.filter(title__icontains=search)
+    elif request.method == "GET":
+        filterset = ProductFilter(request.GET, queryset=products)
+        products = filterset.qs if filterset.is_bound else products
 
-    return render(request, "home.html", {"products": products})
+    return render(
+        request,
+        "home.html",
+        {
+            "filterset": filterset,
+            "products": products
+        }
+    )
 
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)

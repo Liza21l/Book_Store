@@ -11,16 +11,13 @@
         <input type="text" name="search" placeholder="Пошук ...">
         <button type="submit"><Search></Search></button>
     </form>
-    <!-- <p>фільтрувати за жанром</p> -->
-    <!-- <form method="post">
-        <label><input type="checkbox" name="categories" value="Фантастика">Фантастика</label>
-        <label><input type="checkbox" name="categories" value="Детектив та трилери"></label>
-        <label><input type="checkbox" name="categories" value="Роман"></label>
-        <label><input type="checkbox" name="categories" value="Бізнес та саморозвиток"></label>
-        <label><input type="checkbox" name="categories" value="Дитяча література"></label>
+    <p>фільтрувати за жанром</p>
+    <form method="get">
+        {% csrf_token %}
+        {{ filterset.form.as_p }}
         <button type="submit">Відфільтрувати</button>
 
-    </form> -->
+    </form>
     {% for product in products %}
         <a href="{% url 'product_detail' product.pk %}">{{product.title}}</a>
         <p>{{product.author}}</p>
