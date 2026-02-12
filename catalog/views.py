@@ -77,12 +77,12 @@ def cart(request):
                 quantity=item.quantity,
                 price=item.product.price * item.quantity
                 )
-            total += item.product.price * item.quantity
-            order.total_price = total
-            order.save()
-            cart.delete()
+        total += item.product.price * item.quantity
+        order.total_price = total
+        order.save()
+        cart.delete()
 
-            return redirect("my_orders")
+        return redirect("my_orders")
 
 
     return render(request, "cart.html", {"cart": cart, "total": total})
