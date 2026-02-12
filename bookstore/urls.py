@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from catalog import views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 
 
@@ -27,6 +30,11 @@ urlpatterns = [
     path("register/", views.register, name="register"),
     path("login/", views.my_login, name="my_login"),
     path("add_to_cart/<int:pk>/", views.add_to_cart, name="add_to_cart"),
-    path("cart/", views.cart, name="cart")
+    path("cart/", views.cart, name="cart"),
+    path("my_orders/", views.my_orders, name="my_orders"),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

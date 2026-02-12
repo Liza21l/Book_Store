@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мої замовлення - BookStore</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        header nav a:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* Page Title */
+        h1 {
+            font-size: 32px;
+            color: #0F172A;
+            margin-bottom: 30px;
+        }
+
+        /* Order Card */
+        .order-card {
+            background: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .order-card:hover {
+            border-color: #7C3AED;
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.1);
+        }
+
+        /* Order Header */
+        h3 {
+            font-size: 20px;
+            color: #0F172A;
+            margin: 0 0 10px 0;
+        }
+
+        /* Order Info Paragraphs */
+        .order-card > p {
+            margin: 8px 0;
+            font-size: 16px;
+        }
+
+        .order-card > p:first-of-type {
+            font-size: 18px;
+            font-weight: bold;
+            color: #7C3AED;
+        }
+
+        .order-card > p:nth-of-type(2) {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            background: #D1FAE5;
+            color: #065F46;
+            margin-top: 10px;
+        }
+
+        /* Order Items List */
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 0 0;
+        }
+
+        li {
+            background: #F8FAFC;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #0F172A;
+        }
+
+        /* Empty State */
+        .empty-state {
+            background: white;
+            border-radius: 12px;
+            padding: 60px 30px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .empty-state::before {
+            content: "📦";
+            font-size: 64px;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background: #0F172A;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        footer p {
+            margin: 0;
+            color: #94A3B8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            .order-card {
+                padding: 20px;
+            }
+
+            h3 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>BookStore</h1>
+            <nav>
+                <a href="/">← Каталог</a>
+                <a href="/cart">Кошик</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>📦 Мої замовлення</h1>
+
+        {% for order in orders %}
+        <div class="order-card">
+            <h3>Замовлення №{{ order.id }} ({{ order.created_at }})</h3>
+            <p>Загальна сума: {{ order.total_price }} грн</p>
+            <p>{{ order.status }}</p>
+            <ul>
+                {% for item in order.items.all %}
+                    <li>{{ item.product.title }} — {{ item.quantity }} шт.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% empty %}
+        <div class="empty-state">
+            <p>У вас ще немає замовлень.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <footer>
+        <p>BookStore - Інтернет-магазин книг та коміксів</p>
+    </footer>
+</body>
+</html>

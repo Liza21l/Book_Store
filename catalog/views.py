@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
-from .models import Product, CartItem, ProductFilter
+from .models import Product, CartItem, ProductFilter, Order, OrderItem
+
 from django.contrib.auth.decorators import login_required
 
 
@@ -66,4 +67,27 @@ def add_to_cart(request, pk):
 @login_required
 def cart(request):
     cart = CartItem.objects.filter(user=request.user)
-    return render(request, "cart.html", {"cart": cart})
+    total = 0
+    if request.method == "POST": 
+        order = Order.objects.create(user=request.user)
+        for item in cart:
+            OrderItem.objects.create(
+                order=order,
+                product=item.product,
+                quantity=item.quantity,
+                price=item.product.price * item.quantity
+                )
+            total += item.product.price * item.quantity
+            order.total_price = total
+            order.save()
+            cart.delete()
+
+            return redirect("my_orders")
+
+
+    return render(request, "cart.html", {"cart": cart, "total": total})
+
+@login_required
+def my_orders(request):
+    orders = Order.objects.filter(user=request.user).order_by("-created_at")
+    return render(request, "my_orders.html", {"orders": orders})

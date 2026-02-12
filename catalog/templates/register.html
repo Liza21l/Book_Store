@@ -1,33 +1,249 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Реєстрація - BookStore</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        header nav a:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Container */
+        .container {
+            max-width: 500px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        /* Register Card */
+        .register-card {
+            background: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Title */
+        .page-title {
+            font-size: 28px;
+            color: #0F172A;
+            margin: 0 0 10px 0;
+            text-align: center;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: #64748B;
+            margin-bottom: 30px;
+        }
+
+        /* Form */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form > p:first-of-type,
+        form > p:nth-of-type(3),
+        form > p:nth-of-type(5) {
+            font-weight: 600;
+            color: #0F172A;
+            margin: 15px 0 8px 0;
+            font-size: 14px;
+        }
+
+        form > p:nth-of-type(2),
+        form > p:nth-of-type(4),
+        form > p:nth-of-type(6) {
+            margin: 0 0 5px 0;
+        }
+
+        /* Input Fields */
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #7C3AED;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+
+        /* Button */
+        button[type="submit"] {
+            background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(124, 58, 237, 0.3);
+        }
+
+        /* Error Messages */
+        .errors {
+            background: #FEE2E2;
+            border: 2px solid #FCA5A5;
+            color: #DC2626;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        /* Additional Links */
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #64748B;
+            font-size: 14px;
+        }
+
+        .form-footer a {
+            color: #7C3AED;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background: #0F172A;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        footer p {
+            margin: 0;
+            color: #94A3B8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                margin: 30px auto;
+            }
+
+            .register-card {
+                padding: 30px 20px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <form method="post">
-    {% csrf_token %}
-        <p>username</p>
-        <p>
-            {{ form.username }}
-        </p>
-        <p>password1</p>
-        <p>
-            {{ form.password1 }}
-        </p>
-        <p>password2</p>
-        <p>
-            {{ form.password2 }}
-        </p>
-    <button type="submit">Створити акаунт</button>
-</form>
+    <header>
+        <div class="header-content">
+            <h1>BookStore</h1>
+            <nav>
+                <a href="/">← Каталог</a>
+                <a href="/login">Вхід</a>
+            </nav>
+        </div>
+    </header>
 
-{% if form.errors %}
-    <div style="color:red;">
-        {{ form.errors }}
+    <div class="container">
+        <div class="register-card">
+            <h2 class="page-title">📝 Реєстрація</h2>
+            <p class="page-subtitle">Створіть новий акаунт</p>
+
+            <form method="post">
+                {% csrf_token %}
+                <p>username</p>
+                <p>
+                    {{ form.username }}
+                </p>
+                <p>password1</p>
+                <p>
+                    {{ form.password1 }}
+                </p>
+                <p>password2</p>
+                <p>
+                    {{ form.password2 }}
+                </p>
+                <button type="submit">Створити акаунт</button>
+            </form>
+
+            {% if form.errors %}
+            <div class="errors">
+                {{ form.errors }}
+            </div>
+            {% endif %}
+
+            <div class="form-footer">
+                Вже є акаунт? <a href="/login">Увійти</a>
+            </div>
+        </div>
     </div>
-{% endif %}
 
+    <footer>
+        <p>BookStore - Інтернет-магазин книг та коміксів</p>
+    </footer>
 </body>
 </html>

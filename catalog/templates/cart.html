@@ -1,21 +1,78 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Мій кошик</title>
+    <link rel="stylesheet" href="{% static 'catalog/styles.css' %}">
+    <style>
+        .cart-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #7C3AED;
+            border-bottom: 2px solid #7C3AED;
+            padding-bottom: 10px;
+        }
+        .cart-item {
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+        }
+        .cart-item-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0F172A;
+        }
+        .cart-item-quantity {
+            color: #7C3AED;
+            font-style: italic;
+        }
+        .cart-item-price {
+            color: #F59E0B;
+            font-weight: bold;
+        }
+        .cart-total {
+            margin-top: 20px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #F59E0B;
+        }
+        .checkout-btn {
+            margin-top: 15px;
+            background-color: #10B981;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .checkout-btn:hover {
+            background-color: #059669;
+        }
+    </style>
 </head>
 <body>
-    <p>Мій кошик</p>
-    {% if cart %}
-        {% for item in cart %}
-            <p>{{ item.product.title }}</p>
-            <p>{{ item.quantity }}</p>
-        {% endfor %}
+    <div class="cart-container">
+        <h1>Мій кошик</h1>
 
-    {% else %}
-        <p>Ваш кошик порожній.</p>
-    {% endif %}
-
+        {% if cart %}
+            {% for item in cart %}
+                <div class="cart-item">
+                    <p class="cart-item-title">{{ item.product.title }}</p>
+                    <p class="cart-item-quantity">Кількість: {{ item.quantity }}</p>
+                    <p class="cart-item-price">Ціна: {{ item.product.price }} грн</p>
+                </div>
+            {% endfor %}
+            <p class="cart-total">Загальна сума: {{ total }} грн</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="checkout-btn">Оформити замовлення</button>
+            </form>
+        {% else %}
+            <p>Ваш кошик порожній.</p>
+        {% endif %}
+    </div>
 </body>
 </html>
