@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -97,6 +96,14 @@
             color: white;
             font-size: 64px;
             box-shadow: 0 8px 16px rgba(124, 58, 237, 0.2);
+            overflow: hidden;
+        }
+
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
         }
 
         /* Product Info */
@@ -259,37 +266,6 @@
             color: #94A3B8;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .product-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .book-cover {
-                height: 400px;
-            }
-
-            .product-info h1 {
-                font-size: 28px;
-            }
-
-            .price {
-                font-size: 32px;
-            }
-
-            .details-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
-        }
     </style>
 </head>
 <body>
@@ -299,7 +275,7 @@
             <h1>BookStore</h1>
             <nav>
                 <a href="/">← Назад</a>
-                <a href="{% url 'cart' %}">Кошик</a>
+                <a href="/cart">Кошик</a>
             </nav>
         </div>
     </header>
@@ -307,18 +283,22 @@
     <div class="container">
         <!-- Breadcrumbs -->
         <div class="breadcrumbs">
-            <a href="{% url 'product_list' %}">Головна</a> / <span>{{ product.title }}</span>
+            <a href="/">Головна</a> / <a href="/">Каталог</a> / <span>{{ product.title }}</span>
         </div>
 
         <!-- Product Detail -->
         <div class="product-detail">
             <div class="product-layout">
+                <!-- Book Cover -->
                 <div class="book-cover">
                     {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.title }}" >
+                        <img src="{{ product.image.url }}" alt="{{ product.title }}">
+                    {% else %}
+                        📚
                     {% endif %}
                 </div>
 
+                <!-- Product Info -->
                 <div class="product-info">
                     <h1>{{ product.title }}</h1>
                     <p class="author">{{ product.author }}</p>
@@ -328,6 +308,7 @@
                         В наявності
                     </div>
 
+                    <!-- Price -->
                     <div class="price-section">
                         <div class="price-label">Ціна</div>
                         <div class="price">{{ product.price }} грн</div>
